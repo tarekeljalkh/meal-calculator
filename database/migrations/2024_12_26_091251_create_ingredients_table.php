@@ -20,7 +20,8 @@ return new class extends Migration
             $table->decimal('carbs_per_unit', 10, 2)->default(0); // Carbs per unit
             $table->decimal('fats_per_unit', 10, 2)->default(0); // Fats per unit
             $table->decimal('price_per_unit', 10, 2); // Price per unit
-                    $table->timestamps();
+            $table->decimal('waste_percentage', 5, 2)->default(0); // Waste percentage
+            $table->timestamps();
         });
     }
 

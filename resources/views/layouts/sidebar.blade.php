@@ -2,7 +2,7 @@
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
-        <a href="{{ url('/') }}" class="brand-link">
+        <a href="{{ route('dashboard') }}" class="brand-link">
             <!--begin::Brand Image-->
             <img src="{{ asset('dist/assets/img/logo.png') }}" alt="Meal Calculator Logo" class="brand-image opacity-75 shadow" />
             <!--end::Brand Image-->

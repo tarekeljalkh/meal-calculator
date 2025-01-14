@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Meal name
-            $table->text('description')->nullable(); // Meal description
-            $table->integer('preparation_time')->nullable(); // Time in minutes
-            $table->text('preparation_method')->nullable(); // Cooking/preparation instructions
-            $table->decimal('total_calories', 10, 2)->nullable(); // Total calories for the meal
-                    $table->timestamps();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('preparation_time')->nullable();
+            $table->text('preparation_method')->nullable();
+            $table->decimal('total_calories', 10, 2)->default(0);
+            $table->timestamps();
         });
-    }
+            }
 
     /**
      * Reverse the migrations.

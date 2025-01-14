@@ -2,12 +2,22 @@
 
 @section('title', 'Ingredient Details')
 
+@section('breadcrumb_title', 'Show Ingredient')
+@section('breadcrumb_route', 'Show Ingredient')
+
 @section('content')
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">Ingredient Details</h3>
-        <a href="{{ route('ingredients.index') }}" class="btn btn-secondary btn-sm">Back to Ingredients</a>
+
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title"></h3>
+            <div>
+                <a href="{{ route('ingredients.index') }}" class="btn btn-secondary btn-sm">< Back to Ingredients</a>
+            </div>
+        </div>
     </div>
+
+
     <div class="card-body">
         <div class="row mb-3">
             <div class="col-md-6">

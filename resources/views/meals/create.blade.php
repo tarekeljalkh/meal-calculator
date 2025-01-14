@@ -1,25 +1,22 @@
 @extends('layouts.master')
 
-@section('title', 'Add Meal')
+@section('title', 'Create Meal')
+@section('breadcrumb_title', 'Create Meal')
+@section('breadcrumb_route', 'Create Meal')
 
 @section('content')
 <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">Add Meal</h3>
-        <a href="{{ route('meals.index') }}" class="btn btn-secondary btn-sm">Back to Meals</a>
-    </div>
-    <div class="card-body">
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Whoops!</strong> There were some problems with your input.
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title"></h3>
+            <div>
+                <a href="{{ route('meals.index') }}" class="btn btn-secondary btn-sm">< Back to Meals</a>
             </div>
-        @endif
+        </div>
+    </div>
+
+    <div class="card-body">
 
         <form action="{{ route('meals.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -35,6 +32,8 @@
                 <label for="preparation_time" class="form-label">Preparation Time (minutes)</label>
                 <input type="number" name="preparation_time" id="preparation_time" class="form-control" placeholder="Enter Preparation Time" value="{{ old('preparation_time') }}" required>
             </div>
+
+
             <div class="mb-3">
                 <label for="preparation_method" class="form-label">Preparation Method</label>
                 <textarea name="preparation_method" id="preparation_method" class="form-control" placeholder="Describe the Preparation Method">{{ old('preparation_method') }}</textarea>
@@ -91,7 +90,18 @@
 @endsection
 
 @push('scripts')
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script>
+    ClassicEditor
+        .create(document.querySelector('#preparation_method'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
+<script>
+
     document.addEventListener('DOMContentLoaded', function () {
         let ingredientIndex = 1;
         let subMealIndex = 1;

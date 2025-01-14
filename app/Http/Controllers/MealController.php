@@ -7,6 +7,9 @@ use App\Models\Ingredient;
 use App\Models\MealImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Imports\MealsImport;
+use App\Exports\MealsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MealController extends Controller
 {
@@ -30,13 +33,13 @@ class MealController extends Controller
     }
 
     public function show(Meal $meal)
-{
-    // Eager load relationships to avoid N+1 queries
-    $meal->load('ingredients', 'subMeals', 'images');
+    {
+        // Eager load relationships to avoid N+1 queries
+        $meal->load('ingredients', 'subMeals', 'images');
 
-    // Return the show view with the meal data
-    return view('meals.show', compact('meal'));
-}
+        // Return the show view with the meal data
+        return view('meals.show', compact('meal'));
+    }
 
 
     /**
@@ -186,6 +189,30 @@ class MealController extends Controller
         $meal->delete();
 
         return redirect()->route('meals.index')->with('success', 'Meal deleted successfully.');
+    }
+
+    public function import(Request $request)
+    {
+        // Validate the file upload
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv',
+        ]);
+
+        try {
+            // Import the file
+            Excel::import(new MealsImport, $request->file('file'));
+
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Meals imported successfully.');
+        } catch (\Exception $e) {
+            // Handle errors during import
+            return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+        }
+    }
+
+    public function export()
+    {
+        return Excel::download(new MealsExport, 'meals.xlsx');
     }
 
 }

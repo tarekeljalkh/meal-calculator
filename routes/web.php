@@ -20,10 +20,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Ingredients
+    Route::get('/ingredients/export', [IngredientController::class, 'export'])->name('ingredients.export');
+    Route::post('/ingredients/import', [IngredientController::class, 'import'])->name('ingredients.import');
     Route::resource('ingredients', IngredientController::class);
 
     // Meals
+    Route::get('/meals/export', [MealController::class, 'export'])->name('meals.export');
+    Route::post('/meals/import', [MealController::class, 'import'])->name('meals.import');
     Route::resource('meals', MealController::class);
+
     // Meal Images
     Route::delete('meals/image/{id}', [MealController::class, 'deleteImage'])->name('meals.deleteImage');
 });

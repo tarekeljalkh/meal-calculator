@@ -20,6 +20,7 @@ class Ingredient extends Model
         'carbs_per_unit',
         'fats_per_unit',
         'price_per_unit',
+        'waste_percentage',
     ];
 
     /**
@@ -31,6 +32,7 @@ class Ingredient extends Model
         'carbs_per_unit' => 0.0,
         'fats_per_unit' => 0.0,
         'price_per_unit' => 0.0,
+        'waste_percentage' => 0.0,
     ];
 
     /**
@@ -50,14 +52,28 @@ class Ingredient extends Model
      * @return float
      * @throws \InvalidArgumentException
      */
+
     public function calculateCost(float $quantity): float
     {
         if ($quantity <= 0) {
             throw new \InvalidArgumentException('Quantity must be greater than 0.');
         }
 
-        return round($this->price_per_unit * $quantity, 2);
+        // Calculate waste-adjusted price
+        $wasteMultiplier = 1 - ($this->waste_percentage / 100);
+        $effectivePricePerUnit = $this->price_per_unit * $wasteMultiplier;
+
+        return round($effectivePricePerUnit * $quantity, 2);
     }
+
+    // public function calculateCost(float $quantity): float
+    // {
+    //     if ($quantity <= 0) {
+    //         throw new \InvalidArgumentException('Quantity must be greater than 0.');
+    //     }
+
+    //     return round($this->price_per_unit * $quantity, 2);
+    // }
 
     /**
      * Calculate total calories based on the given quantity.

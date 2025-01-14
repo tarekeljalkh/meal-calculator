@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('meal_ingredient', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meal_id')->constrained()->onDelete('cascade'); // Meal being defined
-            $table->foreignId('ingredient_id')->nullable()->constrained()->onDelete('cascade'); // Standard ingredient
-            $table->foreignId('sub_meal_id')->nullable()->constrained('meals')->onDelete('cascade'); // Sub-meal as an ingredient
-            $table->decimal('quantity', 10, 2); // Quantity of ingredient or sub-meal
-            $table->decimal('total_cost', 10, 2)->nullable(); // Pre-calculated cost for this ingredient/sub-meal
-            $table->decimal('total_calories', 10, 2)->nullable(); // Total calories for the meal
+            $table->foreignId('meal_id')->index()->constrained()->onDelete('cascade');
+            $table->foreignId('ingredient_id')->nullable()->index()->constrained()->onDelete('cascade');
+            $table->foreignId('sub_meal_id')->nullable()->index()->constrained('meals')->onDelete('cascade');
+            $table->decimal('quantity', 10, 2);
+            $table->decimal('total_cost', 15, 2)->default(0);
+            $table->decimal('total_calories', 15, 2)->default(0);
+            $table->decimal('waste_percentage', 5, 2)->default(0);
             $table->timestamps();
-        });
+                });
     }
 
     /**

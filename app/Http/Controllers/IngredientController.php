@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
+use App\Imports\IngredientsImport;
+use App\Exports\IngredientsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IngredientController extends Controller
 {
@@ -37,6 +40,7 @@ class IngredientController extends Controller
             'protein_per_unit' => 'nullable|numeric|min:0',
             'carbs_per_unit' => 'nullable|numeric|min:0',
             'fats_per_unit' => 'nullable|numeric|min:0',
+            'waste_percentage' => 'nullable|numeric|min:0|max:100', // Validate waste percentage
         ]);
 
         Ingredient::create($request->all());
@@ -73,6 +77,7 @@ class IngredientController extends Controller
             'protein_per_unit' => 'nullable|numeric|min:0',
             'carbs_per_unit' => 'nullable|numeric|min:0',
             'fats_per_unit' => 'nullable|numeric|min:0',
+            'waste_percentage' => 'nullable|numeric|min:0|max:100', // Validate waste percentage
         ]);
 
         $ingredient->update($request->all());
@@ -88,5 +93,30 @@ class IngredientController extends Controller
         $ingredient->delete();
 
         return redirect()->route('ingredients.index')->with('success', 'Ingredient deleted successfully.');
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+
+        try {
+            $import = new IngredientsImport();
+            Excel::import($import, $file);
+
+            // Check for failures
+            if ($import->failures()->isNotEmpty()) {
+                return redirect()->back()->with('error', 'Some rows could not be imported. Please check the file.');
+            }
+
+            return redirect()->back()->with('success', 'Ingredients imported successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
+
+    public function export()
+    {
+        return Excel::download(new IngredientsExport, 'ingredients.xlsx');
     }
 }

@@ -1,25 +1,22 @@
 @extends('layouts.master')
 
 @section('title', 'Edit Meal')
+@section('breadcrumb_title', 'Edit Meal')
+@section('breadcrumb_route', 'Edit Meal')
 
 @section('content')
+
     <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h3 class="card-title">Edit Meal</h3>
-            <a href="{{ route('meals.index') }}" class="btn btn-secondary btn-sm">Back to Meals</a>
+
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title"></h3>
+            <div>
+                <a href="{{ route('meals.index') }}" class="btn btn-secondary btn-sm">< Back to Meals</a>
+            </div>
         </div>
+    </div>
         <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Whoops!</strong> There were some problems with your input.
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
 
             <form action="{{ route('meals.update', $meal->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -134,6 +131,16 @@
 
 
 @push('scripts')
+
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#preparation_method'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
     <!-- JavaScript for Dynamic Rows -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

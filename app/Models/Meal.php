@@ -55,7 +55,9 @@ class Meal extends Model
 
         // Calculate cost of direct ingredients
         foreach ($this->ingredients as $ingredient) {
-            $totalCost += $ingredient->pivot->total_cost;
+            $quantity = $ingredient->pivot->quantity;
+            $wasteFactor = 1 - (($ingredient->waste_percentage ?? 0) / 100);
+            $totalCost += $ingredient->pivot->total_cost * $wasteFactor * $quantity;
         }
 
         // Calculate cost of sub-meals
@@ -63,8 +65,9 @@ class Meal extends Model
             $totalCost += $subMeal->pivot->total_cost;
         }
 
-        return $totalCost;
+        return round($totalCost, 2);
     }
+
 
     /**
      * Calculate total calories.
@@ -107,10 +110,11 @@ class Meal extends Model
         // Sum up nutrients from ingredients
         foreach ($this->ingredients as $ingredient) {
             $quantity = $ingredient->pivot->quantity;
-            $nutritionalFacts['calories'] += $quantity * ($ingredient->calories_per_unit ?? 0);
-            $nutritionalFacts['protein'] += $quantity * ($ingredient->protein_per_unit ?? 0);
-            $nutritionalFacts['carbs'] += $quantity * ($ingredient->carbs_per_unit ?? 0);
-            $nutritionalFacts['fats'] += $quantity * ($ingredient->fats_per_unit ?? 0);
+            $wasteFactor = 1 - (($ingredient->waste_percentage ?? 0) / 100);
+            $nutritionalFacts['calories'] += $quantity * ($ingredient->calories_per_unit ?? 0) * $wasteFactor;
+            $nutritionalFacts['protein'] += $quantity * ($ingredient->protein_per_unit ?? 0) * $wasteFactor;
+            $nutritionalFacts['carbs'] += $quantity * ($ingredient->carbs_per_unit ?? 0) * $wasteFactor;
+            $nutritionalFacts['fats'] += $quantity * ($ingredient->fats_per_unit ?? 0) * $wasteFactor;
         }
 
         // Include nutrients from sub-meals
@@ -126,4 +130,5 @@ class Meal extends Model
 
         return $nutritionalFacts;
     }
+
 }
