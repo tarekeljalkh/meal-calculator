@@ -6,9 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <title>@yield('title', 'Meal Calculator')</title>
-
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico" />
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
 
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
