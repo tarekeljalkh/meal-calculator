@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('meal_id')->index()->constrained()->onDelete('cascade');
             $table->string('image_path');
-            $table->softDeletes();
             $table->timestamps();
-                });
+        });
     }
 
     /**

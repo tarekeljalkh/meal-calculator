@@ -25,12 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('ingredients', IngredientController::class);
 
     // Meals
+        // Meal Images
+        Route::delete('meals/image/{id}', [MealController::class, 'deleteImage'])->name('meals.deleteImage');
     Route::get('/meals/export', [MealController::class, 'export'])->name('meals.export');
     Route::post('/meals/import', [MealController::class, 'import'])->name('meals.import');
     Route::resource('meals', MealController::class);
 
-    // Meal Images
-    Route::delete('meals/image/{id}', [MealController::class, 'deleteImage'])->name('meals.deleteImage');
 });
 
 require __DIR__ . '/auth.php';

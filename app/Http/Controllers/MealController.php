@@ -180,12 +180,7 @@ class MealController extends Controller
      */
     public function destroy(Meal $meal)
     {
-        // Delete associated images
-        foreach ($meal->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
-            $image->delete();
-        }
-
+        // Example implementation for deleting a meal
         $meal->delete();
 
         return redirect()->route('meals.index')->with('success', 'Meal deleted successfully.');
