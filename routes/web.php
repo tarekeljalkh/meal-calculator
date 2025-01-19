@@ -33,3 +33,22 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+Route::get('/storage-link', function () {
+    // Full path to your storage folder
+    $target = '/home/u529110801/domains/testhapp.website/meal_calculator/storage/app/public';
+
+    // Full path to the location where you want the symlink (public_html)
+    $link = '/home/u529110801/domains/testhapp.website/public_html/storage';
+
+    // Create the symlink
+    symlink($target, $link);
+
+    return 'Storage link has been created successfully';
+});
+
+
+Route::get('/check-path', function () {
+    return base_path();
+});

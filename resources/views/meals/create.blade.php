@@ -39,6 +39,12 @@
                 <textarea name="preparation_method" id="preparation_method" class="form-control" placeholder="Describe the Preparation Method">{{ old('preparation_method') }}</textarea>
             </div>
 
+            <div class="mb-3">
+                <label for="servings" class="form-label">Number of Servings</label>
+                <input type="number" name="servings" id="servings" class="form-control" placeholder="Enter number of servings" value="{{ old('servings', 1) }}" required>
+            </div>
+
+
             <!-- Ingredients Section -->
             <div class="mb-3">
                 <label class="form-label">Ingredients</label>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('preparation_time')->nullable();
             $table->text('preparation_method')->nullable();
+            $table->integer('servings')->default(1);
             $table->decimal('total_calories', 10, 2)->default(0);
             $table->timestamps();
         });

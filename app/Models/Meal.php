@@ -17,6 +17,7 @@ class Meal extends Model
         'description',
         'preparation_time',
         'preparation_method',
+        'servings',
         'total_calories',
     ];
 
